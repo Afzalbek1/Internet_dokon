@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home | Electro Shop{% endblock %}
+
+{% block content %}
+<div class="container-fluid carousel bg-light px-0">
+    <div class="row g-0 justify-content-end">
+        <div class="col-12 col-lg-7 col-xl-9">
+            <div class="header-carousel owl-carousel bg-light py-5">
+                <div class="row g-0 header-carousel-item align-items-center">
+                    <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
+                        <img src="{% static 'img/carousel-1.png' %}" class="img-fluid w-100" alt="Image">
+                    </div>
+                    <div class="col-xl-6 carousel-content p-4">
+                        <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s" style="letter-spacing: 3px;">HTML Template + Django</h4>
+                        <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">Online store home page</h1>
+                        <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Categories, products, and images are loaded from the database.</p>
+                        <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s" href="#products">Browse products</a>
+                    </div>
+                </div>
+                <div class="row g-0 header-carousel-item align-items-center">
+                    <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
+                        <img src="{% static 'img/carousel-2.png' %}" class="img-fluid w-100" alt="Image">
+                    </div>
+                    <div class="col-xl-6 carousel-content p-4">
+                        <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s" style="letter-spacing: 3px;">Course assignment</h4>
+                        <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">Base, index, category, and detail views</h1>
+                        <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Version adapted to match the original template style.</p>
+                        <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s" href="/admin/">Admin panel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-5 col-xl-3 wow fadeInRight" data-wow-delay="0.1s">
+            <div class="carousel-header-banner h-100">
+                <img src="{% static 'img/header-img.jpg' %}" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Image">
+                <div class="carousel-banner-offer">
+                    <p class="bg-primary text-white rounded fs-5 py-2 px-4 mb-0 me-3">Django</p>
+                    <p class="text-primary fs-5 fw-bold mb-0">Template integration</p>
+                </div>
+                <div class="carousel-banner">
+                    <div class="carousel-banner-content text-center p-4">
+                        <a href="#products" class="d-block mb-2">Products</a>
+                        <a href="#products" class="d-block text-white fs-3">Category + Product + Image</a>
+                        <span class="text-white fs-5">Managed from the admin panel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-4 border-bottom border-top wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-3 border-end wow fadeInUp" data-wow-delay="0.1s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-tags fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Categories</h6>
+                            <p class="mb-0">{{ categories|length }} sections</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 border-end wow fadeInUp" data-wow-delay="0.2s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-box-open fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Products</h6>
+                            <p class="mb-0">{{ products|length }} products</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 border-end wow fadeInUp" data-wow-delay="0.3s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-image fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Images</h6>
+                            <p class="mb-0">related_name=&quot;images&quot;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 wow fadeInUp" data-wow-delay="0.4s">
+                <div class="p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-eye fa-2x text-primary"></i>
+                        <div class="ms-4">
+                            <h6 class="text-uppercase mb-2">Detail view</h6>
+                            <p class="mb-0">Separate page for each product</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for category in categories|slice:':2' %}
+            <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
+                <a href="{{ category.get_absolute_url }}" class="d-flex align-items-center justify-content-between border bg-white rounded p-4 h-100">
+                    <div>
+                        <p class="text-muted mb-3">Browse by category</p>
+                        <h3 class="text-primary">{{ category.name }}</h3>
+                        <h1 class="display-6 text-secondary mb-0">{{ category.products.count }} <span class="text-primary fw-normal">products</span></h1>
+                    </div>
+                    <img src="{% static 'img/product-1.png' %}" class="img-fluid" style="max-height: 140px;" alt="">
+                </a>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-light border mb-0">Add categories and products in the admin panel first.</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid product py-5" id="products">
+    <div class="container py-5">
+        <div class="tab-class">
+            <div class="row g-4">
+                <div class="col-lg-4 text-start wow fadeInLeft" data-wow-delay="0.1s">
+                    <h1>Products</h1>
+                </div>
+                <div class="col-lg-8 text-end wow fadeInRight" data-wow-delay="0.1s">
+                    <ul class="nav nav-pills d-inline-flex text-center mb-5">
+                        <li class="nav-item mb-4">
+                            <a class="d-flex mx-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
+                                <span class="text-dark" style="width: 130px;">All</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mb-4">
+                            <a class="d-flex py-2 mx-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
+                                <span class="text-dark" style="width: 130px;">New arrivals</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div class="row g-4">
+                        {% for product in featured_products %}
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="product-item-inner border rounded">
+                                    <div class="product-item-inner-item">
+                                        {% if product.main_image %}
+                                        <img src="{{ product.main_image.image.url }}" class="img-fluid w-100 rounded-top" alt="{{ product.title }}" style="height: 260px; object-fit: cover;">
+                                        {% else %}
+                                        <img src="{% static 'img/product-3.png' %}" class="img-fluid w-100 rounded-top" alt="{{ product.title }}" style="height: 260px; object-fit: cover;">
+                                        {% endif %}
+                                        {% if product.old_price %}
+                                        <div class="product-sale">Sale</div>
+                                        {% else %}
+                                        <div class="product-new">New</div>
+                                        {% endif %}
+                                        <div class="product-details">
+                                            <a href="{{ product.get_absolute_url }}"><i class="fa fa-eye fa-1x"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="text-center rounded-bottom p-4">
+                                        <a href="{{ product.category.get_absolute_url }}" class="d-block mb-2">{{ product.category.name }}</a>
+                                        <a href="{{ product.get_absolute_url }}" class="d-block h4">{{ product.title|truncatechars:24 }}</a>
+                                        {% if product.old_price %}
+                                        <del class="me-2 fs-5">${{ product.old_price }}</del>
+                                        {% endif %}
+                                        <span class="text-primary fs-5">${{ product.price }}</span>
+                                    </div>
+                                </div>
+                                <div class="product-item-add border border-top-0 rounded-bottom text-center p-4 pt-0">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary border-secondary rounded-pill py-2 px-4 mb-4"><i class="fas fa-eye me-2"></i> View details</a>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex">
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="d-flex">
+                                            <a href="{{ product.category.get_absolute_url }}" class="text-primary d-flex align-items-center justify-content-center me-0"><span class="rounded-circle btn-sm-square border"><i class="fas fa-tag"></i></span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-light border">No products found. Add products from the admin panel.</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="tab-2" class="tab-pane fade show p-0">
+                    <div class="row g-4">
+                        {% for product in new_products %}
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="product-item-inner border rounded">
+                                    <div class="product-item-inner-item">
+                                        {% if product.main_image %}
+                                        <img src="{{ product.main_image.image.url }}" class="img-fluid w-100 rounded-top" alt="{{ product.title }}" style="height: 260px; object-fit: cover;">
+                                        {% else %}
+                                        <img src="{% static 'img/product-4.png' %}" class="img-fluid w-100 rounded-top" alt="{{ product.title }}" style="height: 260px; object-fit: cover;">
+                                        {% endif %}
+                                        <div class="product-new">New</div>
+                                        <div class="product-details">
+                                            <a href="{{ product.get_absolute_url }}"><i class="fa fa-eye fa-1x"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="text-center rounded-bottom p-4">
+                                        <a href="{{ product.category.get_absolute_url }}" class="d-block mb-2">{{ product.category.name }}</a>
+                                        <a href="{{ product.get_absolute_url }}" class="d-block h4">{{ product.title|truncatechars:24 }}</a>
+                                        <span class="text-primary fs-5">${{ product.price }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-light border">No new products found.</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

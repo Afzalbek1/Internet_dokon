@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} | Electro Shop{% endblock %}
+
+{% block content %}
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">{{ category.name }}</h1>
+    <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+        <li class="breadcrumb-item active text-white">{{ category.name }}</li>
+    </ol>
+</div>
+
+<div class="container-fluid shop py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="product-categories mb-4">
+                    <h4>Categories</h4>
+                    <ul class="list-unstyled">
+                        {% for category_item in categories %}
+                        <li>
+                            <div class="categories-item">
+                                <a href="{{ category_item.get_absolute_url }}" class="text-dark"><i class="fas fa-tag text-secondary me-2"></i>{{ category_item.name }}</a>
+                                <span>({{ category_item.products.count }})</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="product-stock p-4 bg-light rounded">
+                    <h4 class="mb-3">{{ category.name }}</h4>
+                    <p class="mb-0">This section contains {{ products|length }} products.</p>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="row g-4">
+                    {% for product in products %}
+                    <div class="col-md-6 col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="product-item rounded">
+                            <div class="product-item-inner border rounded">
+                                <div class="product-item-inner-item">
+                                    {% if product.main_image %}
+                                    <img src="{{ product.main_image.image.url }}" class="img-fluid w-100 rounded-top" alt="{{ product.title }}" style="height: 260px; object-fit: cover;">
+                                    {% else %}
+                                    <img src="{% static 'img/product-5.png' %}" class="img-fluid w-100 rounded-top" alt="{{ product.title }}" style="height: 260px; object-fit: cover;">
+                                    {% endif %}
+                                    {% if product.old_price %}
+                                    <div class="product-sale">Sale</div>
+                                    {% else %}
+                                    <div class="product-new">New</div>
+                                    {% endif %}
+                                    <div class="product-details">
+                                        <a href="{{ product.get_absolute_url }}"><i class="fa fa-eye fa-1x"></i></a>
+                                    </div>
+                                </div>
+                                <div class="text-center rounded-bottom p-4">
+                                    <a href="{{ product.category.get_absolute_url }}" class="d-block mb-2">{{ product.category.name }}</a>
+                                    <a href="{{ product.get_absolute_url }}" class="d-block h4">{{ product.title|truncatechars:24 }}</a>
+                                    {% if product.old_price %}
+                                    <del class="me-2 fs-5">${{ product.old_price }}</del>
+                                    {% endif %}
+                                    <span class="text-primary fs-5">${{ product.price }}</span>
+                                </div>
+                            </div>
+                            <div class="product-item-add border border-top-0 rounded-bottom text-center p-4 pt-0">
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-primary border-secondary rounded-pill py-2 px-4 mb-4"><i class="fas fa-eye me-2"></i> View details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-light border">No products found in this category.</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
